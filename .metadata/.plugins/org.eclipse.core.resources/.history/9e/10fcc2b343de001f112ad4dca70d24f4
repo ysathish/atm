@@ -1,0 +1,80 @@
+package com.depositor.drawer;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
+public class ATMFrame extends JFrame
+{
+	private final Account account;
+	private JLabel balanceLabel;
+	public ATMFrame(Account account) throws HeadlessException {
+		super();
+		this.account = account;
+		 setupFrame();
+	        setupUI();
+	}
+	public void setupFrame()
+	{
+		setTitle("ATM Machine");
+		setSize(400,300);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+	}
+	public void setupUI()
+	{
+		JPanel balancePanel=new JPanel();
+		balanceLabel=new JLabel("Balance:"+account.getBalance());
+		balanceLabel.setFont(new Font("Arial",Font.BOLD,16));
+		balancePanel.add(balanceLabel);
+		JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+		JButton depositButton = new JButton("Deposit");
+		 depositButton.addActionListener(e -> performTransaction(true));
+	        buttonPanel.add(depositButton);
+	        JButton withdrawButton = new JButton("Withdraw");
+	        withdrawButton.addActionListener(e -> performTransaction(false));
+	        buttonPanel.add(withdrawButton);
+	        setLayout(new BorderLayout());
+	        add(balancePanel, BorderLayout.NORTH);
+	        add(buttonPanel, BorderLayout.CENTER);
+	}
+	private void performTransaction(boolean isDeposit) {
+        String transactionType = isDeposit ? "Deposit" : "Withdraw";
+        try {
+            String amountStr = JOptionPane.showInputDialog(this, "Enter amount to " + transactionType + ":");
+            if (amountStr == null || amountStr.isEmpty()) return;
+
+            int amount = Integer.parseInt(amountStr);
+            if (isDeposit) {
+                account.deposit(amount);
+            } else {
+                account.withdraw(amount);
+            }
+            updateBalance();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid amount entered. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+	private void updateBalance() {
+        balanceLabel.setText("Balance: ₹" + account.getBalance());
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Account account = new Account();
+            account.deposit(1000); // Initial balance
+            new ATMFrame(account).setVisible(true);
+        });
+    }
+
+}

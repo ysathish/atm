@@ -1,0 +1,62 @@
+package com.depositor.drawer;
+
+public class ATMSystem {
+    static final int MAX_ACCOUNTS = 10;
+    Account[] accounts = new Account[MAX_ACCOUNTS];
+    private int accountCount = 0;
+
+    // Add a new account
+    public boolean addAccount(String username, String password) {
+        if (accountCount >= MAX_ACCOUNTS) {
+            System.out.println("Account limit reached. Cannot add more users.");
+            return false;
+        }
+        accounts[accountCount++] = new Account(username, password);
+        System.out.println("Account for " + username + " added successfully.");
+        return true;
+    }
+
+    // Find an account by username
+    public Account findAccount(String username) {
+        for (int i = 0; i < accountCount; i++) {
+            if (accounts[i] != null && accounts[i].authenticate(username, "")) {
+                return accounts[i];
+            }
+        }
+        return null;
+    }
+
+    // Authenticate account
+    public Account authenticate(String username, String password) {
+        for (int i = 0; i < accountCount; i++) {
+            if (accounts[i] != null && accounts[i].authenticate(username, password)) {
+                return accounts[i];
+            }
+        }
+        return null;
+    }
+
+    // Remove an account
+    public boolean removeAccount(String username) {
+        for (int i = 0; i < accountCount; i++) {
+            if (accounts[i] != null && accounts[i].authenticate(username, "")) {
+                accounts[i] = null;
+                System.out.println("Account for " + username + " removed successfully.");
+                return true;
+            }
+        }
+        System.out.println("Account not found.");
+        return false;
+    }
+
+    // Display all accounts
+    public void displayAccounts() {
+        System.out.println("Accounts in the system:");
+        for (int i = 0; i < accountCount; i++) {
+            if (accounts[i] != null) {
+                System.out.println("- " + accounts[i].authenticate("", ""));
+            }
+        }
+    }
+}
+

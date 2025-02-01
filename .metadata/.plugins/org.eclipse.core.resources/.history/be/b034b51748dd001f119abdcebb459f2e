@@ -1,0 +1,40 @@
+package com.depositor.drawer;
+
+import java.util.Scanner;
+
+//BLC class
+public class Drawer extends Thread
+{
+	private final Account account;  //HAS-A Relation
+	private final Scanner scanner;
+
+	public Drawer(Account account,Scanner scanner) {
+		super();
+		this.account = account;
+		this.scanner=scanner;
+	}
+	@Override
+	public synchronized void run()
+	{
+		//		int[] withdraw= {400,1000,500};
+		//		for(int amount: withdraw)
+		//			account.withdraw(amount);
+		while (true) {
+			System.out.println("Enter withdrawal amount (or -1 to stop): ");
+			int amount = scanner.nextInt();
+			if (amount == -1)
+			{
+				break; // Exit if user enters -1
+			}
+
+			account.withdraw(amount);
+		}
+
+		try {
+			sleep(1000);
+		} catch (InterruptedException e) {
+			System.err.println("Thread interrupted: " + e.getMessage());
+			Thread.currentThread().interrupt();
+		}
+	}
+}

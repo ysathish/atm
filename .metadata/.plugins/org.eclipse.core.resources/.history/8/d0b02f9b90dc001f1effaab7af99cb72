@@ -1,0 +1,14 @@
+package com.in.collection;
+
+import java.util.Vector;
+
+public class VectorDemo {
+
+	public static void main(String[] args) {
+		Vector v=new Vector(4,2);
+		v.addElement(3);
+		System.out.println(v.elementAt(1));
+
+	}
+
+}

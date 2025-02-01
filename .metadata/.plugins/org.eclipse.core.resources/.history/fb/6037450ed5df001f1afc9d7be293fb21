@@ -1,0 +1,11 @@
+package serializationDeserialization;
+
+import java.util.Scanner;
+
+public class StoreObject 
+{
+	public static void main(String[] args) {
+		Scanner sc=0new Scanner(System.in);
+	}
+
+}

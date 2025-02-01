@@ -1,0 +1,25 @@
+package com.depositor.drawer;
+
+public class Account 
+{
+	private int balance = 0;
+    
+	public synchronized void withdraw(int amount)
+	{
+		if(amount>balance)
+		{
+//			wait();
+		}
+		while(balance>amount)
+		{
+			
+		}
+		balance=balance-amount;
+	}
+	public synchronized void deposit(int amount)
+	{
+		balance+=amount;
+		System.out.println("your updated balance is "+balance);
+		notify();
+	}
+}

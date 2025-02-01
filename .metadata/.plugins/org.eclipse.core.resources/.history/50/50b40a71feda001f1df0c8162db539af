@@ -1,0 +1,19 @@
+package com.depositor.drawer;
+
+public class Account 
+{
+	private int balance = 0;
+    
+	public synchronized void withdraw(int amount)
+	{
+		if(amount>balance)
+		{
+			
+		}
+		while(balance>amount)
+		{
+			
+		}
+		balance=balance-amount;
+	}
+}

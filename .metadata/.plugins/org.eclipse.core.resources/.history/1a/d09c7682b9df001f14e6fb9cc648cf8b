@@ -1,0 +1,26 @@
+package serializationDeserialization;
+
+public class Student
+{
+	private Integer studentId;
+	private String studentName;
+	private Double studentFee;
+	private Date dateOfAdmision;
+	public Student(Integer studentId, String studentName, Double studentFee, Date dateOfAdmision) {
+		super();
+		this.studentId = studentId;
+		this.studentName = studentName;
+		this.studentFee = studentFee;
+		this.dateOfAdmision = dateOfAdmision;
+	}
+	public static Student getStudentObject()
+	{
+		
+		
+	}
+	@Override
+	public String toString() {
+		return "Student [studentId=" + studentId + ", studentName=" + studentName + ", studentFee=" + studentFee + "]";
+	}
+	
+}

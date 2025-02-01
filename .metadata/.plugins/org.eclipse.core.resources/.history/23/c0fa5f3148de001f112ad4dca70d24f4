@@ -1,0 +1,118 @@
+package com.depositor.drawer;
+import javax.swing.*;
+import java.awt.*;
+
+public class ATMFrame extends JFrame {
+    private Account account;
+
+    private JLabel balanceLabel;
+
+    public ATMFrame() {
+        setupFrame();
+        authenticateUser();
+    }
+
+    private void setupFrame() {
+        setTitle("ATM Machine");
+        setSize(600, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+
+    private void authenticateUser() {
+        JTextField usernameField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
+
+        JPanel authPanel = new JPanel();
+        authPanel.add(new JLabel("Username:"));
+        authPanel.add(usernameField);
+        authPanel.add(Box.createHorizontalStrut(15)); // Spacer
+        authPanel.add(new JLabel("Password:"));
+        authPanel.add(passwordField);
+
+        int result = JOptionPane.showConfirmDialog(
+            this, authPanel, "Login", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
+        );
+
+        if (result == JOptionPane.OK_OPTION) {
+            String username = usernameField.getText();
+            String password = new String(passwordField.getPassword());
+
+            // Hardcoded users for simplicity
+            Account user1 = new Account("user1", "password1");
+            Account user2 = new Account("user2", "password2");
+
+            if (user1.authenticate(username, password)) {
+                account = user1;
+                initializeATM();
+            } else if (user2.authenticate(username, password)) {
+                account = user2;
+                initializeATM();
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid credentials! Exiting.", "Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
+            }
+        } else {
+            System.exit(0);
+        }
+    }
+
+    private void initializeATM() {
+        setupUI();
+    }
+
+    private void setupUI() {
+        // Panel for Balance
+        JPanel balancePanel = new JPanel();
+        balanceLabel = new JLabel("Balance: ₹" + account.getBalance());
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        balancePanel.add(balanceLabel);
+
+        // Panel for Buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        JButton depositButton = new JButton("Deposit");
+        JButton withdrawButton = new JButton("Withdraw");
+
+        depositButton.addActionListener(e -> performTransaction(true));
+        withdrawButton.addActionListener(e -> performTransaction(false));
+
+        buttonPanel.add(depositButton);
+        buttonPanel.add(withdrawButton);
+
+        // Add panels to frame
+        setLayout(new BorderLayout());
+        add(balancePanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+    }
+
+    private void performTransaction(boolean isDeposit) {
+        String transactionType = isDeposit ? "Deposit" : "Withdraw";
+        try {
+            String amountStr = JOptionPane.showInputDialog(this, "Enter amount to " + transactionType + ":");
+            if (amountStr == null || amountStr.isEmpty()) return;
+
+            int amount = Integer.parseInt(amountStr);
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Amount must be greater than 0.");
+            }
+            if (isDeposit) {
+                account.deposit(amount);
+            } else {
+                account.withdraw(amount);
+            }
+            updateBalance();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid amount entered. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateBalance() {
+        balanceLabel.setText("Balance: ₹" + account.getBalance());
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new ATMFrame().setVisible(true));
+    }
+}

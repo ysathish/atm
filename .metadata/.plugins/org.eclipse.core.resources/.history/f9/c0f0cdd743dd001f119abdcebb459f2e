@@ -1,0 +1,42 @@
+package com.depositor.drawer;
+
+import java.util.logging.Logger;
+
+public class Account 
+{
+	private int balance = 0;
+	private static final Logger logger=Logger.getLogger(Account.class.getName());
+    
+	public synchronized void withdraw(int amount)
+	{
+		if(amount<=0)
+		{
+			logger.warning(Thread.currentThread().getName()+ " attempted invalid withdrawal of ₹" + amount);
+			return;
+		}
+		
+		while(balance<amount)
+		{
+			logger.info(Thread.currentThread().getName()+" is waiting to withdraw "+amount+". Current balance: ₹" + balance);
+			try
+			{
+				wait();
+			}
+			catch(InterruptedException e)
+			{
+				logger.severe("Thread interrupted: " + e.getMessage());
+                Thread.currentThread().interrupt();
+			}
+			
+		}
+		balance=balance-amount;
+		System.out.println(Thread.currentThread().getName()+"is withdraw the "+amount);
+		notify();
+	}
+	public synchronized void deposit(int amount)
+	{
+		balance+=amount;
+		System.out.println("your updated balance is "+balance);
+		notify();
+	}
+}

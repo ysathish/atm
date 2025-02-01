@@ -1,0 +1,46 @@
+package com.depositor.drawer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Account 
+{
+	private int balance = 0;
+//	private static final Logger logger=Logger.getLogger(Account.class.getName());
+	private List<String> transactionHistory=new ArrayList<>();
+    
+	public synchronized void withdraw(int amount)
+	{
+		
+		
+		while(balance<amount)
+		{
+			try
+			{
+				wait();
+			}
+			catch(InterruptedException e)
+			{
+                Thread.currentThread().interrupt();
+			}
+			
+		}
+		balance=balance-amount;
+		notifyAll();
+	}
+	public synchronized void deposit(int amount)
+	{
+		if(amount<=0)
+		{
+			logger.warning(Thread.currentThread().getName()+ " attempted invalid deposit of ₹" + amount + ". Updated balance: ₹" + balance);
+			return;
+		}
+		balance+=amount;
+		logger.info("your updated balance is "+balance);
+		notify();
+	}
+	public int getBalance() {
+		// TODO Auto-generated method stub
+		return balance;
+	}
+}

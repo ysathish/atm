@@ -1,0 +1,16 @@
+package com.depositor.drawer;
+//BLC class
+public class Drawer extends Thread
+{
+	private Account account;  //HAS-A Relation
+
+	public Drawer(Account account) {
+		super();
+		this.account = account;
+	}
+	@Override
+	public void run()
+	{
+		
+	}
+}

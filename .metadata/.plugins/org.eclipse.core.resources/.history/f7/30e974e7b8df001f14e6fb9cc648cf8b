@@ -1,0 +1,10 @@
+package serializationDeserialization;
+
+public class Student
+{
+	private Integer studentId;
+	private String studentName;
+	private Double studentFee;
+	
+
+}

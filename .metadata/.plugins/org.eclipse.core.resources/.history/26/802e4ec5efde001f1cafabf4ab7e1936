@@ -1,0 +1,19 @@
+package com.in.EmployeeDirectory;
+
+import java.util.ArrayList;
+
+public class EmployeeDirectoryExample {
+
+	public static void main(String[] args) {
+		
+		ArrayList<Employee> Alice=new ArrayList();
+		Directory directory=new Directory(Alice);
+//		Employee Bob=new Employee();
+		directory.displayAllEmployees();
+		directory.updateEmployee();
+		directory.deleteEmployee();
+		
+
+	}
+
+}

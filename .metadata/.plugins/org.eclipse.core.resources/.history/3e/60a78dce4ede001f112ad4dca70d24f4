@@ -1,0 +1,7 @@
+package com.depositor.drawer;
+
+
+public Account[] getAccounts() {
+    return accounts;
+}
+

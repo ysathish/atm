@@ -1,0 +1,16 @@
+package com.in.EmployeeDirectory;
+
+public class EmployeeDirectoryExample {
+
+	public static void main(String[] args) {
+		Directory directory=new Directory();
+		directory.addEmployee(new Employee("Alice", "Manager", 60000.0));
+		directory.addEmployee(new Employee("Bob", "Developer", 50000.0));
+		
+		
+		
+		
+
+	}
+
+}

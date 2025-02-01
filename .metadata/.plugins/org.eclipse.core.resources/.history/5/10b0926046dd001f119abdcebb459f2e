@@ -1,0 +1,31 @@
+package com.depositor.drawer;
+
+import java.util.Scanner;
+
+//BLC class
+public class Depositor extends Thread
+{
+	private final Account account;
+	private final Scanner scanner;//HAS-A Relation
+
+	public Depositor(Account account,Scanner scanner) {
+		super();
+		this.account = account;
+		this.scanner = null;
+	}
+	@Override
+	public  void run()
+	{
+		int[] deposit= {500,700,1000};
+		for(int amount: deposit)
+			account.deposit(amount);
+		try {
+			sleep(1000);
+		} catch (InterruptedException e) {
+			 System.err.println("Thread interrupted: " + e.getMessage());
+             Thread.currentThread().interrupt();
+		}
+		
+	}
+
+}

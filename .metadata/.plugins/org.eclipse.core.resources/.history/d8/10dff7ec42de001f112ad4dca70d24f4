@@ -1,0 +1,47 @@
+package com.depositor.drawer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Account 
+{
+	private int balance = 0;
+//	private static final Logger logger=Logger.getLogger(Account.class.getName());
+	private List<String> transactionHistory=new ArrayList<>();
+    
+	public synchronized void withdraw(int amount)
+	{
+		
+		
+		while(balance<amount)
+		{
+			try
+			{
+				wait();
+			}
+			catch(InterruptedException e)
+			{
+                Thread.currentThread().interrupt();
+			}
+			
+		}
+		balance=balance-amount;
+		String transaction="Withdrew: ₹" + amount + " | Remaining Balance: ₹" + balance;
+		transactionHistory.add(transaction);
+		System.out.println(transaction);
+		notifyAll();
+	}
+	public synchronized void deposit(int amount)
+	{
+		
+		balance+=amount;
+		String transaction="Deposited: ₹" + amount + " | Total Balance: ₹" + balance;
+		transactionHistory.add(transaction);
+		System.out.println(transaction);
+		notify();
+	}
+	public synchronized int getBalance() {
+		// TODO Auto-generated method stub
+		return balance;
+	}
+}

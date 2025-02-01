@@ -1,0 +1,6 @@
+package com.depositor.drawer;
+//BLC class
+public class Drawer extends Thread
+{
+	private Account account;  //HAS-A Relation
+}

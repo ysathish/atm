@@ -1,0 +1,15 @@
+package serializationDeserialization;
+
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+
+public class RetrieveObject {
+	public static void main(String[] args)throws Exception 
+	{
+		FileInputStream fis=new FileInputStream("Student.txt");
+		ObjectInputStream ois=new ObjectInputStream(fis);
+		ArrayList<Student> studentList=(ArrayList<Student>)ois.readObject();
+	}
+
+}

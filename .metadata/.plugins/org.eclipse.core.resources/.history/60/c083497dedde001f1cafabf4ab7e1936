@@ -1,0 +1,11 @@
+package com.in.EmployeeDirectory;
+
+public class EmployeeDirectoryExample {
+
+	public static void main(String[] args) {
+		Directory dicectory=new Directory();
+		Employee Alice=new Employee("Alice","junior dev",25000);
+
+	}
+
+}

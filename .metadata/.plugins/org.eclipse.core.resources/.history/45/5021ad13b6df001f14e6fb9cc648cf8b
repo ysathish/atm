@@ -1,0 +1,42 @@
+package com.in.EmployeeDirectory;
+
+import java.util.ArrayList;
+
+public class Directory {
+	ArrayList<Employee> emp;
+	
+
+	public Directory() {
+		emp=new ArrayList<>();
+	}
+
+	public ArrayList<Employee> getEmp() {
+		return emp;
+	}
+
+	public void setEmp(ArrayList<Employee> emp) {
+		this.emp = emp;
+	}
+	public void addEmployee(Employee emp)
+	{
+		
+        this.emp.add(emp);
+		
+		
+	}
+	public void displayAllEmployees(Employee emp)
+	{
+		System.out.println(emp.toString());
+		
+	}
+	public void updateEmployee(Employee emp)
+	{
+//		System.out.println("updated successfully");
+//		System.out.println(emp.toString());
+		
+	}
+	public void deleteEmployee(Employee emp)
+	{
+		
+	}
+}

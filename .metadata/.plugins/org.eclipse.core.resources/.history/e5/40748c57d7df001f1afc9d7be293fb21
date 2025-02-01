@@ -1,0 +1,11 @@
+package serializationDeserialization;
+
+import java.io.FileInputStream;
+
+public class RetrieveObject {
+	public static void main(String[] args)throws Exception 
+	{
+		FileInputStream fis=new FileInputStream("Student.txt");
+	}
+
+}

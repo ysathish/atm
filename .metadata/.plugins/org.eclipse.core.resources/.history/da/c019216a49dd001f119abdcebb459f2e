@@ -1,0 +1,23 @@
+package com.depositor.drawer;
+
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class ATMFrame extends JFrame
+{
+	private final Account account;
+	private JLabel balanceLabel;
+	public ATMFrame(Account account) throws HeadlessException {
+		super();
+		this.account = account;
+		 setupFrame();
+	        setupUI();
+	}
+	public void setupFrame()
+	{
+		setTitle("ATM Machine");
+	}
+
+}

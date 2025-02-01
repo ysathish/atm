@@ -1,0 +1,121 @@
+package com.depositor.drawer;
+
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
+
+public class ATMFrame extends JFrame {
+    private final Account account;
+    private JLabel balanceLabel;
+    private JTextArea transactionArea;
+
+    public ATMFrame(Account account) {
+        this.account = account;
+        setupFrame();
+        setupUI();
+    }
+
+    private void setupFrame() {
+        setTitle("ATM Machine");
+        setSize(600, 400);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
+
+    private void setupUI() {
+        // Panel for Balance
+        JPanel balancePanel = new JPanel();
+        balanceLabel = new JLabel("Balance: ₹" + account.getBalance());
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        balancePanel.add(balanceLabel);
+
+        // Panel for Buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JButton depositButton = new JButton("Deposit");
+        JButton withdrawButton = new JButton("Withdraw");
+        JButton transactionHistoryButton = new JButton("View Transactions");
+        JButton simulateButton = new JButton("Simulate Transactions");
+
+        depositButton.addActionListener(e -> performTransaction(true));
+        withdrawButton.addActionListener(e -> performTransaction(false));
+        transactionHistoryButton.addActionListener(e -> showTransactionHistory());
+        simulateButton.addActionListener(e -> simulateThreads());
+
+        buttonPanel.add(depositButton);
+        buttonPanel.add(withdrawButton);
+        buttonPanel.add(transactionHistoryButton);
+        buttonPanel.add(simulateButton);
+
+        // Panel for Transaction Area
+        transactionArea = new JTextArea(10, 40);
+        transactionArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(transactionArea);
+
+        // Add panels to frame
+        setLayout(new BorderLayout());
+        add(balancePanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.SOUTH);
+    }
+
+    private void performTransaction(boolean isDeposit) {
+        String transactionType = isDeposit ? "Deposit" : "Withdraw";
+        try {
+            String amountStr = JOptionPane.showInputDialog(this, "Enter amount to " + transactionType + ":");
+            if (amountStr == null || amountStr.isEmpty()) return;
+
+            int amount = Integer.parseInt(amountStr);
+            if (isDeposit) {
+                account.deposit(amount);
+            } else {
+                account.withdraw(amount);
+            }
+            updateBalance();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid amount entered. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateBalance() {
+        balanceLabel.setText("Balance: ₹" + account.getBalance());
+    }
+
+    private void showTransactionHistory() {
+        List<String> history = account.getTransactionHistory();
+        transactionArea.setText("");
+        for (String transaction : history) {
+            transactionArea.append(transaction + "\n");
+        }
+    }
+
+    private void simulateThreads() {
+        new Thread(() -> {
+            Depositor depositor = new Depositor(account);
+            depositor.start();
+        }).start();
+
+        new Thread(() -> {
+            Drawer drawer = new Drawer(account);
+            drawer.start();
+        }).start();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            Account account = new Account();
+            new ATMFrame(account).setVisible(true);
+        });
+    }
+}

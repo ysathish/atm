@@ -1,0 +1,7 @@
+package com.depositor.drawer;
+
+import javax.swing.JFrame;
+
+public class ATMFrame extends JFrame {
+
+}

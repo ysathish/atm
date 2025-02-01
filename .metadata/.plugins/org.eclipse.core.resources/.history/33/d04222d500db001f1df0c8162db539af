@@ -1,0 +1,26 @@
+package com.depositor.drawer;
+//BLC class
+public class Depositor extends Thread
+{
+	private Account account;  //HAS-A Relation
+
+	public Depositor(Account account) {
+		super();
+		this.account = account;
+	}
+	@Override
+	public void run()
+	{
+		int[] deposit=new int[5];
+		for(int d: deposit)
+			System.out.println(d);
+		try {
+			wait(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

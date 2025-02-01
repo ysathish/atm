@@ -1,0 +1,25 @@
+package com.in.EmployeeDirectory;
+
+public class EmployeeDirectoryExample {
+
+	public static void main(String[] args) {
+		Directory directory=new Directory();
+		Employee Alice=new Employee("Alice","junior dev",25000);
+		Employee Bob=new Employee("Bob","senior dev",45000);
+		directory.addEmployee(Alice);
+		directory.addEmployee(Bob);
+		directory.displayAllEmployees(Alice);
+		directory.displayAllEmployees(Bob);
+		Bob.setPosition("manager");
+		Bob.setSalary(55000);
+//		directory.updateEmployee(Bob);
+		System.out.println("\n");
+		directory.displayAllEmployees(Alice);
+		directory.displayAllEmployees(Bob);
+		
+		
+		
+
+	}
+
+}

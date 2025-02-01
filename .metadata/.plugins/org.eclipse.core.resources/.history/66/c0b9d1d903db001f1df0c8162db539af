@@ -1,0 +1,25 @@
+package com.depositor.drawer;
+//BLC class
+public class Drawer extends Thread
+{
+	private Account account;  //HAS-A Relation
+
+	public Drawer(Account account) {
+		super();
+		this.account = account;
+	}
+	@Override
+	public synchronized void run()
+	{
+		int[] withdraw= {400,1000,500};
+		for(int w: withdraw)
+			account.withdraw(w);
+			
+		try {
+			sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

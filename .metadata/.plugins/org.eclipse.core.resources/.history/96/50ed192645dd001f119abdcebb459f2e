@@ -1,0 +1,36 @@
+package com.depositor.drawer;
+
+public class ATMMachine {
+
+	public static void main(String[] args)
+	{
+		 Account account = new Account(); // Shared account object
+
+	        // Create depositor and drawer threads
+	        Depositor depositor = new Depositor(account);
+	        Drawer drawer = new Drawer(account);
+
+	        // Naming the threads for clarity
+	        depositor.setName("Depositor-Thread");
+	        drawer.setName("Drawer-Thread");
+
+	        // Start both threads
+	        depositor.start();
+	        drawer.start();
+
+	        // Join threads to ensure complete execution
+	        try {
+	            depositor.join();
+	            drawer.join();
+	        } catch (InterruptedException e) {
+	            System.err.println("Main thread interrupted: " + e.getMessage());
+	        }
+
+	        System.out.println("All transactions are complete!");
+	    }
+	}
+		
+
+	}
+
+}

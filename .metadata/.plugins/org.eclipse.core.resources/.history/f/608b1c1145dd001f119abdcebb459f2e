@@ -1,0 +1,18 @@
+package com.depositor.drawer;
+
+public class ATMMachine {
+
+	public static void main(String[] args)
+	{
+		Account a=new Account();
+		Drawer withdraw=new Drawer(a);
+		Depositor deposit=new Depositor(a);
+		deposit.setName("depositor");
+		withdraw.setName("drawer");
+		withdraw.start();
+		deposit.start();
+		
+
+	}
+
+}
